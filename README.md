@@ -1,2 +1,2 @@
 # Prerna-Tatwa
-Just another website to add your motivation quotes and add to someone's day
+Just another full-stack website to add your motivation quotes and make someone's day better
