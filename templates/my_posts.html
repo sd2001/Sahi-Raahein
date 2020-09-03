@@ -15,7 +15,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/posts">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link">About</a>
@@ -54,7 +54,7 @@
 
 
 {% block body %}
-  {% for content in contents.find(): %}
+  {% for content in contents: %}
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
@@ -67,6 +67,8 @@
             </h4>          
           <p class="post-meta">Posted by {{content.author}} on September 24, 2019</p>
         </div>
+        <a href="#" class="myButton">EDIT</a>
+        <a href="#" class="myButtonr">REMOVE</a>
         <hr>
        </div>
     </div>
