@@ -35,6 +35,15 @@ def create():
     details.insert_one(doc)
     return redirect(url_for('home'))
 
+@app.route('/login')
+def login():
+    return render_template('login')
+
+@app.route('/login',methods="POST")
+def login_p():
+    
+
+
 @app.route('/mypost')
 def mypost():
     details=db.details
