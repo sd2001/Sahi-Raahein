@@ -24,7 +24,7 @@
             <a class="nav-link" href="/create">New Post</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Contact</a>
+            <a class="nav-link" href="/logout">Logout</a>
           </li>
         </ul>
       </div>
@@ -65,10 +65,10 @@
             <h4 class="post-subtitle">
               {{content.content}}
             </h4>          
-          <p class="post-meta">Posted by {{content.author}} on September 24, 2019</p>
+          <p class="post-meta">Posted by {{content.author}}  with ❤️</p>
         </div>
-        <a href="#" class="myButton">EDIT</a>
-        <a href="#" class="myButtonr">REMOVE</a>
+        <a href="{{content.title}}" class="myButton">EDIT</a>
+        <a href="{{content.title}}" class="myButtonr">REMOVE</a>
         <hr>
        </div>
     </div>
