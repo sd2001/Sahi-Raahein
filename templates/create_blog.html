@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>New Blog Post </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/font-awesome.min.css" />
+
+    <script type="text/javascript" src="../static/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+<div class="page-header">
+    <h1>New Blog Post <small>A responsive blog post template</small></h1>
+</div>
+
+<!-- New Blog Post - START -->
+<form action="/create" method="POST">
+<div class="container">
+    <div class="row" id="row_style">
+        <h4 class="text-center">Submit new post</h4>
+        <div class="col-md-4   col-md-offset-4">
+            <div class="form-group">
+                <input type="text" name="title" class="form-control" placeholder="Title">
+            </div>
+            <textarea id="editor" name="content" cols="30" rows="10">Submit your text post here</textarea>
+            <br>
+            <div class="form-group">
+                <button class="btn btn-primary" id="submit">Submit new post</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+<style>
+    #row_style {
+        margin-top: 30px;
+    }
+
+    #submit {
+        display: block;
+        margin: auto;
+    }
+</style>
+
+<!-- you need to include the shieldui css and js assets in order for the charts to work -->
+<link rel="stylesheet" type="text/css" href="https://www.shieldui.com/shared/components/latest/css/light/all.min.css" />
+<script type="text/javascript" src="https://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+
+<script>
+    $(function () {
+        $("#editor").shieldEditor({
+            height: 260
+        });
+    })
+</script>
+<!-- New Blog Post - END -->
+
+</div>
+
+</body>
+</html>
