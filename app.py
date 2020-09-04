@@ -4,7 +4,8 @@ from pymongo import MongoClient
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash,check_password_hash
 import bcrypt
-from profanity_check import predict, predict_prob
+from profanityfilter import ProfanityFilter
+pf = ProfanityFilter()
 from flask_login import login_user,current_user
 
 
@@ -51,28 +52,35 @@ def create_p():
         title=request.form.get('title')
         content=request.form.get('content')
         author=g.user
-        if predict([content])==1 and predict([title])==1:
-            flash(f"Avoid Abuse!God is watching {g.user}.")
+        if title=="" or content=="":
+            flash("Enter both the fields to proceed")
             return render_template('create_blog.html')
+        if title!=None or content!=None:
+            if pf.is_clean(content)==False or pf.is_clean(title)==False:
+                flash(f"Avoid Abuse!God is watching,{g.user}.")
+                return render_template('create_blog.html')
+            else:
+                doc={'title':title,
+                    'content':content,
+                    'author':author}
+                details=db.details
+                details.insert_one(doc)
+                return redirect(url_for('home'))
         else:
-            doc={'title':title,
-                'content':content,
-                'author':author}
-            details=db.details
-            details.insert_one(doc)
-            return redirect(url_for('home'))
+            flash("Enter both the fields to proceed")
+            return render_template('create_blog.html')
     
     return render_template('login.html')
 
 
-@app.route('/login')
+@app.route('/')
 def login():
     if g.user:
         return redirect(url_for('home'))
         
     return render_template('login.html')
 
-@app.route('/login',methods=['POST'])
+@app.route('/',methods=['POST'])
 def login_p():
     session.pop('user',None)
     email=request.form.get('email')
@@ -161,6 +169,22 @@ def update_post(title):
 @app.route('/update/<string:title_old>',methods={'POST'})
 def update_post_p(title_old):
     title=request.form.get('title')
+    content=request.form.get('content')
+    if title is not None or content is not None:
+        if pf.is_clean(content)==False or pf.is_clean(title)==False:
+            flash(f"Avoid Abuse!God is watching,{g.user}.")
+            pp=db.details
+            mq={'title':request.form.get('title')}
+            details=pp.find(mq)
+            return render_template('update.html',contents=details)
+    else:
+        pp=db.details
+        mq={'title':title_old}
+        details=pp.find(mq)
+        flash("Enter both the fields to proceed")
+        return render_template('update.html',contents=details)
+         
+    
     title=request.form.get('title')
     content=request.form.get('content')
     author=g.user
@@ -168,9 +192,10 @@ def update_post_p(title_old):
         'content':content,
         'author':author}
     details=db.details
+    
+    
     details.update_one({"title":title_old},{"$set":doc})
     return redirect(url_for('mypost'))   
-
     
     
 
