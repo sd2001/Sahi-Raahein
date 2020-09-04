@@ -15,8 +15,8 @@
 
 <div class="container">
 
-<div class="page-header">
-    <h1>Update Blog Post <small>A responsive blog post template</small></h1>
+<div class="page-header" align="center">
+    <h1>New Blog Post</h1>
 </div>
 
 <!-- New Blog Post - START -->
@@ -29,16 +29,32 @@
             <div class="form-group">
                 <input type="text" name="title" class="form-control" value="{{content.title}}">
             </div>
-            <textarea id="editor" name="content" cols="30" rows="10">{{content.content}}</textarea>
+            <textarea name="content" cols="47" rows="20">{{content.content}}</textarea>
             <br>
-            <div class="form-group">
+            {% with messages = get_flashed_messages() %}
+						{% if messages %}
+						<div align ='center' class="text-center">
+								{{messages[0]}}
+							</div><br>
+						{% endif %}
+					{% endwith %}
+            <br><div class="form-group">
                 <button class="btn btn-primary" id="submit">Update new post</button>
-            </div>
         </div>
     </div>
 </div>
+</div>
 </form>
 {%endfor%}
+                            <div class="container">
+    
+                               <div class="form-group">
+                                <a href="/mypost">
+                                <button class="btn btn-primary" id="submit">To Your Posts</button>
+                                </a>                            
+                            </div>
+                            </div>
+                            </form>
 <style>
     #row_style {
         margin-top: 30px;

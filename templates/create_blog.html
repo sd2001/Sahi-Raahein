@@ -28,7 +28,7 @@
             <div class="form-group">
                 <input type="text" name="title" class="form-control" placeholder="Title">
             </div>
-            <textarea name="content" cols="47" rows="10">Submit your text post here</textarea>
+            <textarea name="content" cols="47" rows="20">Submit your text post here</textarea>
             <br>
             {% with messages = get_flashed_messages() %}
 						{% if messages %}
@@ -39,11 +39,22 @@
 					{% endwith %}
             <br><div class="form-group">
                 <button class="btn btn-primary" id="submit">Submit new post</button>
-            </div>
+            </div>           
         </div>
     </div>
 </div>
 </form>
+<form action="/mypost">
+                            <div class="container">
+    
+                               <div class="form-group">
+                                <a href="/mypost">
+                                <button class="btn btn-primary" id="submit">To Your Posts</button>
+                                </a>                            
+                            </div>
+                            </div>
+                            </form>
+
 <style>
     #row_style {
         margin-top: 30px;
