@@ -4,7 +4,9 @@ from pymongo import MongoClient
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash,check_password_hash
 import bcrypt
+from profanity_check import predict, predict_prob
 from flask_login import login_user,current_user
+
 
 client=MongoClient("mongodb+srv://swarnabha:swarnabhadb@cluster0.v3eq0.mongodb.net/Motivation?retryWrites=true&w=majority")
 app=Flask(__name__)
@@ -21,7 +23,7 @@ app.secret_key = 'hellouserapi'
 def home():
     if g.user:
         details=db.details
-        return render_template('posts.html',contents=details)
+        return render_template('posts.html',contents=details,user_name=g.user)
     flash("Please login before continuing")
     return render_template('login.html')
 
@@ -31,7 +33,7 @@ def mypost():
         pp=db.details
         mq={'author':g.user}
         details=pp.find(mq).sort([("_id", -1)])
-        return render_template('my_posts.html',contents=details)
+        return render_template('my_posts.html',contents=details,user_name=g.user)
     flash("Please login before continuing")
     return render_template('login.html')
 
@@ -49,12 +51,16 @@ def create_p():
         title=request.form.get('title')
         content=request.form.get('content')
         author=g.user
-        doc={'title':title,
-            'content':content,
-            'author':author}
-        details=db.details
-        details.insert_one(doc)
-        return redirect(url_for('home'))
+        if predict([content])==1 and predict([title])==1:
+            flash(f"Avoid Abuse!God is watching {g.user}.")
+            return render_template('create_blog.html')
+        else:
+            doc={'title':title,
+                'content':content,
+                'author':author}
+            details=db.details
+            details.insert_one(doc)
+            return redirect(url_for('home'))
     
     return render_template('login.html')
 
