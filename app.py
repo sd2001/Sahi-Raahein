@@ -8,6 +8,8 @@ from profanityfilter import ProfanityFilter
 pf = ProfanityFilter()
 from flask_login import login_user,current_user
 import time
+from datetime import date
+
 ttt=(time.strftime('%H'))
 ttt=int(ttt)
 if ttt>4 and ttt<12:
@@ -34,7 +36,7 @@ app.secret_key = 'hellouserapi'
 
 @app.route('/posts')
 def home():
-    if g.user:
+    if g.user:        
         details=db.details
         return render_template('posts.html',contents=details,user_name=g.user,mssg=mssg)
     flash("Please login before continuing")
