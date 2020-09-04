@@ -30,7 +30,7 @@ def mypost():
     if g.user:
         pp=db.details
         mq={'author':g.user}
-        details=pp.find(mq)
+        details=pp.find(mq).sort([("_id", -1)])
         return render_template('my_posts.html',contents=details)
     flash("Please login before continuing")
     return render_template('login.html')
