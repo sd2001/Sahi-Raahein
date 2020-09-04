@@ -7,6 +7,18 @@ import bcrypt
 from profanityfilter import ProfanityFilter
 pf = ProfanityFilter()
 from flask_login import login_user,current_user
+import time
+ttt=(time.strftime('%H'))
+ttt=int(ttt)
+if ttt>4 and ttt<12:
+    mssg='Good Morning'
+elif ttt>=12 and ttt<17:
+    mssg='Good Afternoon'
+elif ttt>=17 and ttt<=21:
+    mssg='Good Evening'
+else:
+    mssg='Good Night'
+
 
 
 client=MongoClient("mongodb+srv://swarnabha:swarnabhadb@cluster0.v3eq0.mongodb.net/Motivation?retryWrites=true&w=majority")
@@ -24,7 +36,7 @@ app.secret_key = 'hellouserapi'
 def home():
     if g.user:
         details=db.details
-        return render_template('posts.html',contents=details,user_name=g.user)
+        return render_template('posts.html',contents=details,user_name=g.user,mssg=mssg)
     flash("Please login before continuing")
     return render_template('login.html')
 
@@ -34,7 +46,7 @@ def mypost():
         pp=db.details
         mq={'author':g.user}
         details=pp.find(mq).sort([("_id", -1)])
-        return render_template('my_posts.html',contents=details,user_name=g.user)
+        return render_template('my_posts.html',contents=details,user_name=g.user,mssg=mssg)
     flash("Please login before continuing")
     return render_template('login.html')
 
@@ -170,21 +182,22 @@ def update_post(title):
 def update_post_p(title_old):
     title=request.form.get('title')
     content=request.form.get('content')
-    if title is not None or content is not None:
-        if pf.is_clean(content)==False or pf.is_clean(title)==False:
-            flash(f"Avoid Abuse!God is watching,{g.user}.")
-            pp=db.details
-            mq={'title':request.form.get('title')}
-            details=pp.find(mq)
-            return render_template('update.html',contents=details)
-    else:
+    gg=True
+    if pf.is_clean(content)==False or pf.is_clean(title)==False:
+        gg=False
+        flash(f"Avoid Abuse!God is watching,{g.user}.")
+        pp=db.details
+        mq={'title':title_old}
+        details=pp.find(mq)
+        return render_template('update.html',contents=details)
+    
+    if title == None or title=="" or content == None or  content=="":        
         pp=db.details
         mq={'title':title_old}
         details=pp.find(mq)
         flash("Enter both the fields to proceed")
-        return render_template('update.html',contents=details)
-         
-    
+        return render_template('update.html',contents=details)    
+          
     title=request.form.get('title')
     content=request.form.get('content')
     author=g.user
@@ -195,8 +208,7 @@ def update_post_p(title_old):
     
     
     details.update_one({"title":title_old},{"$set":doc})
-    return redirect(url_for('mypost'))   
-    
+    return redirect(url_for('mypost'))      
     
 
 @app.before_request
