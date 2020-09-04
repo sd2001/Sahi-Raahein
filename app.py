@@ -22,6 +22,7 @@ def home():
     if g.user:
         details=db.details
         return render_template('posts.html',contents=details)
+    flash("Please login before continuing")
     return render_template('login.html')
 
 @app.route('/mypost')
@@ -31,11 +32,14 @@ def mypost():
         mq={'author':g.user}
         details=pp.find(mq)
         return render_template('my_posts.html',contents=details)
+    flash("Please login before continuing")
+    return render_template('login.html')
 
 @app.route('/create')
 def create():
     if g.user:        
         return render_template('create_blog.html',name=g.user)
+    flash("Please login before continuing")
     return render_template('login.html')
 
 
@@ -57,6 +61,9 @@ def create_p():
 
 @app.route('/login')
 def login():
+    if g.user:
+        return redirect(url_for('home'))
+        
     return render_template('login.html')
 
 @app.route('/login',methods=['POST'])
@@ -90,6 +97,9 @@ def login_p():
 
 @app.route('/register')
 def register():
+    if g.user:
+        session.pop('user', None)
+        
     return render_template('register.html')
 
 @app.route('/register',methods=['POST'])
@@ -116,8 +126,45 @@ def register_p():
 
 @app.route('/logout')
 def logout():
-    session.pop('user', None)
+    if g.user:
+        session.pop('user', None)
+        return render_template('login.html')
+    flash("Please login before continuing")
     return render_template('login.html')
+
+@app.route('/delete/<string:title>')
+def delete_post(title):
+    if g.user:
+        dp={'title':title}
+        details=db.details
+        details.delete_one(dp)
+        return redirect(url_for('mypost'))
+    flash("Please login before continuing")
+    return redirect(url_for('login'))
+
+@app.route('/update/<string:title>')
+def update_post(title):
+    if g.user:
+        pp=db.details
+        mq={'title':title}
+        details=pp.find(mq)
+        return render_template('update.html',contents=details)
+    flash("Please login before continuing")
+    return render_template('login.html')
+
+@app.route('/update/<string:title_old>',methods={'POST'})
+def update_post_p(title_old):
+    title=request.form.get('title')
+    title=request.form.get('title')
+    content=request.form.get('content')
+    author=g.user
+    doc={'title':title,
+        'content':content,
+        'author':author}
+    details=db.details
+    details.update_one({"title":title_old},{"$set":doc})
+    return redirect(url_for('mypost'))   
+
     
     
 
