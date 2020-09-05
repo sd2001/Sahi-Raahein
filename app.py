@@ -10,19 +10,6 @@ from flask_login import login_user,current_user
 import time
 from datetime import date
 
-ttt=(time.strftime('%H'))
-ttt=int(ttt)
-if ttt>4 and ttt<12:
-    mssg='Good Morning'
-elif ttt>=12 and ttt<17:
-    mssg='Good Afternoon'
-elif ttt>=17 and ttt<=21:
-    mssg='Good Evening'
-else:
-    mssg='Good Night'
-
-
-
 client=MongoClient("mongodb+srv://swarnabha:swarnabhadb@cluster0.v3eq0.mongodb.net/Motivation?retryWrites=true&w=majority")
 app=Flask(__name__)
 db=client['Posts']
@@ -34,6 +21,13 @@ app.secret_key = 'hellouserapi'
 #            "content":"Micro Web framework used for deployment using python",
 #            "author":"Someone maybe :-)"}]
 
+@app.route('/create')
+def create():
+    if g.user:        
+        return render_template('create_blog.html',name=g.user)
+    flash("Please login before continuing")
+    return render_template('login.html')
+
 @app.route('/posts')
 def home():
     ttt=(time.strftime('%H'))
@@ -44,7 +38,7 @@ def home():
         mssg='Good Afternoon'
     elif ttt>=17 and ttt<=21:
         mssg='Good Evening'
-    else:
+    elif ttt>21 and ttt<=4:
         mssg='Good Night'
     if g.user:        
         details=db.details
@@ -72,12 +66,7 @@ def mypost():
     flash("Please login before continuing")
     return render_template('login.html')
 
-@app.route('/create')
-def create():
-    if g.user:        
-        return render_template('create_blog.html',name=g.user)
-    flash("Please login before continuing")
-    return render_template('login.html')
+
 
 
 @app.route('/create',methods=['POST'])
