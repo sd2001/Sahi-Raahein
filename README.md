@@ -1,6 +1,6 @@
 # <div align="center">😇Sahi-Raahein🌐</div>
 
-# <div align="center">💡Thoughts define Actions, which are a reflection of us.✅</div>
+# <div align="center">💡Thoughts define Actions, which is a reflection of us.✅</div>
 <div align="center">  
   <img align="center" width="300" height="300" src="https://github.com/sd2001/sd2001/blob/master/200w%20(5).webp">
 </div>
