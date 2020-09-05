@@ -55,7 +55,7 @@ def home():
 @app.route('/mypost')
 def mypost():
     ttt=(time.strftime('%H'))
-    ttt=int(ttt)
+    ttt=int(ttt)+5
     if ttt>4 and ttt<12:
         mssg='Good Morning'
     elif ttt>=12 and ttt<17:
