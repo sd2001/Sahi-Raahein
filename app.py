@@ -36,6 +36,16 @@ app.secret_key = 'hellouserapi'
 
 @app.route('/posts')
 def home():
+    ttt=(time.strftime('%H'))
+    ttt=int(ttt)
+    if ttt>4 and ttt<12:
+        mssg='Good Morning'
+    elif ttt>=12 and ttt<17:
+        mssg='Good Afternoon'
+    elif ttt>=17 and ttt<=21:
+        mssg='Good Evening'
+    else:
+        mssg='Good Night'
     if g.user:        
         details=db.details
         return render_template('posts.html',contents=details,user_name=g.user,mssg=mssg)
@@ -44,6 +54,16 @@ def home():
 
 @app.route('/mypost')
 def mypost():
+    ttt=(time.strftime('%H'))
+    ttt=int(ttt)
+    if ttt>4 and ttt<12:
+        mssg='Good Morning'
+    elif ttt>=12 and ttt<17:
+        mssg='Good Afternoon'
+    elif ttt>=17 and ttt<=21:
+        mssg='Good Evening'
+    else:
+        mssg='Good Night'
     if g.user:
         pp=db.details
         mq={'author':g.user}
