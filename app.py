@@ -62,7 +62,7 @@ def mypost():
         mssg='Good Afternoon'
     elif ttt>=17 and ttt<=21:
         mssg='Good Evening'
-    else:
+    elif ttt>21 and ttt<=4:
         mssg='Good Night'
     if g.user:
         pp=db.details
