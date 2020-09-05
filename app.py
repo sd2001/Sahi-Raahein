@@ -10,7 +10,7 @@ from flask_login import login_user,current_user
 import time
 from datetime import date
 
-client=MongoClient("mongodb+srv://swarnabha:swarnabhadb@cluster0.v3eq0.mongodb.net/Motivation?retryWrites=true&w=majority")
+client=MongoClient("mongodb+srv://swarnabha:<password>@cluster0.v3eq0.mongodb.net/Motivation?retryWrites=true&w=majority")
 app=Flask(__name__)
 db=client['Posts']
 db2=client['Users']
