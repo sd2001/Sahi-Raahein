@@ -33,13 +33,13 @@ def home():
     ttt=(time.strftime('%H'))
     ttt=int(ttt)
     if ttt>4 and ttt<12:
-        mssg='Good Morning'
+        mssg='good morning'
     elif ttt>=12 and ttt<17:
-        mssg='Good Afternoon'
+        mssg='good afternoon'
     elif ttt>=17 and ttt<=21:
-        mssg='Good Evening'
+        mssg='good evening'
     elif ttt>21 and ttt<=4:
-        mssg='Good Night'
+        mssg='good night'
     if g.user:        
         details=db.details
         return render_template('posts.html',contents=details,user_name=g.user,mssg=mssg)
@@ -51,19 +51,19 @@ def mypost():
     ttt=(time.strftime('%H'))
     ttt=int(ttt)+5
     if ttt>4 and ttt<12:
-        mssg='Good Morning'
+        mssg='good morning'
     elif ttt>=12 and ttt<17:
-        mssg='Good Afternoon'
+        mssg='good afternoon'
     elif ttt>=17 and ttt<=21:
-        mssg='Good Evening'
+        mssg='good evening'
     elif ttt>21 and ttt<=4:
-        mssg='Good Night'
+        mssg='good night'
     if g.user:
         pp=db.details
         mq={'author':g.user}
         details=pp.find(mq).sort([("_id", -1)])
         return render_template('my_posts.html',contents=details,user_name=g.user,mssg=mssg)
-    flash("Please login before continuing")
+    flash("you must login to continue")
     return render_template('login.html')
 
 
@@ -90,7 +90,7 @@ def create_p():
                 details.insert_one(doc)
                 return redirect(url_for('home'))
         else:
-            flash("Enter both the fields to proceed")
+            flash("Enter all the fields to proceed")
             return render_template('create_blog.html')
     
     return render_template('login.html')
@@ -112,7 +112,7 @@ def login_p():
     flag=False
     
     if email is None or password is None:
-        flash("Please fill both the fields and try again")
+        flash("Enter all the fields to proceed")
         return render_template(url_for('login'))
     
     for i in data.find():
